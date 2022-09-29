@@ -13,11 +13,43 @@ generator client {
 }
 
 model User {
-  id       String @id @default(cuid())
-  name     String @default("")
-  email    String @unique @default("")
-  password String
-  posts    Post[] @relation("Post_author")
+  id              String  @id @default(cuid())
+  name            String  @default("")
+  email           String  @unique @default("")
+  password        String
+  posts           Post[]  @relation("Post_author")
+  image_filesize  Int?
+  image_extension String?
+  image_width     Int?
+  image_height    Int?
+  image_id        String?
+  genres          Genre[] @relation("Genre_artists")
+  songs           Song[]  @relation("Song_artists")
+  userType        String? @default("artist")
+}
+
+model Song {
+  id        String    @id @default(cuid())
+  title     String    @default("")
+  imageUrl  String    @default("")
+  artists   User?     @relation("Song_artists", fields: [artistsId], references: [id])
+  artistsId String?   @map("artists")
+  genres    Genre[]   @relation("Genre_songs")
+  postedAt  DateTime?
+
+  @@index([artistsId])
+}
+
+model Genre {
+  id              String  @id @default(cuid())
+  name            String  @default("")
+  image_filesize  Int?
+  image_extension String?
+  image_width     Int?
+  image_height    Int?
+  image_id        String?
+  artists         User[]  @relation("Genre_artists")
+  songs           Song[]  @relation("Genre_songs")
 }
 
 model Post {
