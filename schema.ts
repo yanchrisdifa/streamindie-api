@@ -23,15 +23,25 @@ import {
   password,
   timestamp,
   select,
+  file,
+  checkbox,
 } from "@keystone-6/core/fields";
 import { document } from "@keystone-6/fields-document";
 import { Lists } from ".keystone/types";
 import { image } from "@keystone-6/core/fields";
+const isAdmin = ({ session }: { session: any }) =>
+  session?.data.userType === "admin";
+const isPerson = ({ session, item }: { session: any; item: any }) =>
+  session?.data.id === item.id;
+const isAdminOrPerson = ({ session, item }: { session: any; item: any }) =>
+  isAdmin({ session }) || isPerson({ session, item });
 
 export const lists: Lists = {
   User: list({
     fields: {
-      name: text({ validation: { isRequired: true } }),
+      name: text({
+        validation: { isRequired: true },
+      }),
       email: text({
         validation: { isRequired: true },
         isIndexed: "unique",
@@ -39,6 +49,7 @@ export const lists: Lists = {
       }),
       password: password({ validation: { isRequired: true } }),
       posts: relationship({ ref: "Post.author", many: true }),
+      profile_picture: image({ storage: "artists_profile_picture" }),
       image: image({ storage: "artist_images" }),
       genres: relationship({ ref: "Genre.artists", many: true }),
       songs: relationship({ ref: "Song.artists", many: true }),
@@ -46,8 +57,9 @@ export const lists: Lists = {
         options: [
           { label: "Admin", value: "admin" },
           { label: "Artist", value: "artist" },
+          { label: "User", value: "user" },
         ],
-        defaultValue: "artist",
+        defaultValue: "user",
         ui: {
           displayMode: "radio",
         },
@@ -59,12 +71,14 @@ export const lists: Lists = {
   Song: list({
     fields: {
       title: text({ validation: { isRequired: true } }),
-      imageUrl: text({ validation: { isRequired: true } }),
+      image: image({ storage: "song_cover_images" }),
       artists: relationship({ ref: "User.songs", many: false }),
-      genres: relationship({ ref: "Genre.songs", many: true }),
+      genre: relationship({ ref: "Genre.songs", many: false }),
       postedAt: timestamp({
-        // defaultValue: { kind: "now" },
+        defaultValue: { kind: "now" },
+        validation: { isRequired: true },
       }),
+      audio: file({ storage: "song_audio" }),
     },
   }),
 
@@ -73,7 +87,7 @@ export const lists: Lists = {
       name: text({ validation: { isRequired: true } }),
       image: image({ storage: "genre_images" }),
       artists: relationship({ ref: "User.genres", many: true }),
-      songs: relationship({ ref: "Song.genres", many: true }),
+      songs: relationship({ ref: "Song.genre", many: true }),
     },
   }),
 

@@ -35,7 +35,7 @@ export default withAuth(
   config({
     // the db sets the database provider - we're using sqlite for the fastest startup experience
     server: {
-      cors: { origin: ["http://localhost:4200"], credentials: true },
+      cors: { origin: ["http://localhost:4202"], credentials: true },
     },
     db: {
       provider: "sqlite",
@@ -80,6 +80,22 @@ export default withAuth(
         // serverRoute: null
         storagePath: "public/images/artists",
       },
+      artists_profile_picture: {
+        // Images that use this store will be stored on the local machine
+        kind: "local",
+        // This store is used for the image field type
+        type: "image",
+        // The URL that is returned in the Keystone GraphQL API
+        generateUrl: (path) =>
+          `${baseUrl}/images/profile-picture/artists${path}`,
+        // The route that will be created in Keystone's backend to serve the images
+        serverRoute: {
+          path: "/images/profile-picture/artists",
+        },
+        // Set serverRoute to null if you don't want a route to be created in Keystone
+        // serverRoute: null
+        storagePath: "public/images/profile-picture/artists",
+      },
       genre_images: {
         // Images that use this store will be stored on the local machine
         kind: "local",
@@ -94,6 +110,36 @@ export default withAuth(
         // Set serverRoute to null if you don't want a route to be created in Keystone
         // serverRoute: null
         storagePath: "public/images/genres",
+      },
+      song_cover_images: {
+        // Images that use this store will be stored on the local machine
+        kind: "local",
+        // This store is used for the image field type
+        type: "image",
+        // The URL that is returned in the Keystone GraphQL API
+        generateUrl: (path) => `${baseUrl}/images/song-cover${path}`,
+        // The route that will be created in Keystone's backend to serve the images
+        serverRoute: {
+          path: "/images/song-cover",
+        },
+        // Set serverRoute to null if you don't want a route to be created in Keystone
+        // serverRoute: null
+        storagePath: "public/images/song-cover",
+      },
+      song_audio: {
+        // Images that use this store will be stored on the local machine
+        kind: "local",
+        // This store is used for the image field type
+        type: "file",
+        // The URL that is returned in the Keystone GraphQL API
+        generateUrl: (path) => `${baseUrl}/audio/songs${path}`,
+        // The route that will be created in Keystone's backend to serve the images
+        serverRoute: {
+          path: "/audio/songs",
+        },
+        // Set serverRoute to null if you don't want a route to be created in Keystone
+        // serverRoute: null
+        storagePath: "public/audio/songs",
       },
       /** more storage */
     },

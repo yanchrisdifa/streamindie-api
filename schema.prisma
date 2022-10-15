@@ -13,31 +13,44 @@ generator client {
 }
 
 model User {
-  id              String  @id @default(cuid())
-  name            String  @default("")
-  email           String  @unique @default("")
-  password        String
-  posts           Post[]  @relation("Post_author")
+  id                        String  @id @default(cuid())
+  name                      String  @default("")
+  email                     String  @unique @default("")
+  password                  String
+  posts                     Post[]  @relation("Post_author")
+  profile_picture_filesize  Int?
+  profile_picture_extension String?
+  profile_picture_width     Int?
+  profile_picture_height    Int?
+  profile_picture_id        String?
+  image_filesize            Int?
+  image_extension           String?
+  image_width               Int?
+  image_height              Int?
+  image_id                  String?
+  genres                    Genre[] @relation("Genre_artists")
+  songs                     Song[]  @relation("Song_artists")
+  userType                  String? @default("user")
+}
+
+model Song {
+  id              String   @id @default(cuid())
+  title           String   @default("")
   image_filesize  Int?
   image_extension String?
   image_width     Int?
   image_height    Int?
   image_id        String?
-  genres          Genre[] @relation("Genre_artists")
-  songs           Song[]  @relation("Song_artists")
-  userType        String? @default("artist")
-}
-
-model Song {
-  id        String    @id @default(cuid())
-  title     String    @default("")
-  imageUrl  String    @default("")
-  artists   User?     @relation("Song_artists", fields: [artistsId], references: [id])
-  artistsId String?   @map("artists")
-  genres    Genre[]   @relation("Genre_songs")
-  postedAt  DateTime?
+  artists         User?    @relation("Song_artists", fields: [artistsId], references: [id])
+  artistsId       String?  @map("artists")
+  genre           Genre?   @relation("Song_genre", fields: [genreId], references: [id])
+  genreId         String?  @map("genre")
+  postedAt        DateTime @default(now())
+  audio_filesize  Int?
+  audio_filename  String?
 
   @@index([artistsId])
+  @@index([genreId])
 }
 
 model Genre {
@@ -49,7 +62,7 @@ model Genre {
   image_height    Int?
   image_id        String?
   artists         User[]  @relation("Genre_artists")
-  songs           Song[]  @relation("Genre_songs")
+  songs           Song[]  @relation("Song_genre")
 }
 
 model Post {

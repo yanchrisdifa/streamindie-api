@@ -13,6 +13,7 @@ type User {
     skip: Int! = 0
   ): [Post!]
   postsCount(where: PostWhereInput! = {}): Int
+  profile_picture: ImageFieldOutput
   image: ImageFieldOutput
   genres(
     where: GenreWhereInput! = {}
@@ -54,6 +55,7 @@ enum ImageExtension {
 enum UserUserTypeType {
   admin
   artist
+  user
 }
 
 input UserWhereUniqueInput {
@@ -155,6 +157,7 @@ input UserUpdateInput {
   email: String
   password: String
   posts: PostRelateToManyForUpdateInput
+  profile_picture: ImageFieldInput
   image: ImageFieldInput
   genres: GenreRelateToManyForUpdateInput
   songs: SongRelateToManyForUpdateInput
@@ -201,6 +204,7 @@ input UserCreateInput {
   email: String
   password: String
   posts: PostRelateToManyForCreateInput
+  profile_picture: ImageFieldInput
   image: ImageFieldInput
   genres: GenreRelateToManyForCreateInput
   songs: SongRelateToManyForCreateInput
@@ -225,20 +229,21 @@ input SongRelateToManyForCreateInput {
 type Song {
   id: ID!
   title: String
-  imageUrl: String
+  image: ImageFieldOutput
   artists: User
-  genres(
-    where: GenreWhereInput! = {}
-    orderBy: [GenreOrderByInput!]! = []
-    take: Int
-    skip: Int! = 0
-  ): [Genre!]
-  genresCount(where: GenreWhereInput! = {}): Int
+  genre: Genre
   postedAt: DateTime
+  audio: FileFieldOutput
 }
 
 scalar DateTime
   @specifiedBy(url: "https://datatracker.ietf.org/doc/html/rfc3339#section-5.6")
+
+type FileFieldOutput {
+  filename: String!
+  filesize: Int!
+  url: String!
+}
 
 input SongWhereUniqueInput {
   id: ID
@@ -250,13 +255,12 @@ input SongWhereInput {
   NOT: [SongWhereInput!]
   id: IDFilter
   title: StringFilter
-  imageUrl: StringFilter
   artists: UserWhereInput
-  genres: GenreManyRelationFilter
-  postedAt: DateTimeNullableFilter
+  genre: GenreWhereInput
+  postedAt: DateTimeFilter
 }
 
-input DateTimeNullableFilter {
+input DateTimeFilter {
   equals: DateTime
   in: [DateTime!]
   notIn: [DateTime!]
@@ -264,28 +268,38 @@ input DateTimeNullableFilter {
   lte: DateTime
   gt: DateTime
   gte: DateTime
-  not: DateTimeNullableFilter
+  not: DateTimeFilter
 }
 
 input SongOrderByInput {
   id: OrderDirection
   title: OrderDirection
-  imageUrl: OrderDirection
   postedAt: OrderDirection
 }
 
 input SongUpdateInput {
   title: String
-  imageUrl: String
+  image: ImageFieldInput
   artists: UserRelateToOneForUpdateInput
-  genres: GenreRelateToManyForUpdateInput
+  genre: GenreRelateToOneForUpdateInput
   postedAt: DateTime
+  audio: FileFieldInput
 }
 
 input UserRelateToOneForUpdateInput {
   create: UserCreateInput
   connect: UserWhereUniqueInput
   disconnect: Boolean
+}
+
+input GenreRelateToOneForUpdateInput {
+  create: GenreCreateInput
+  connect: GenreWhereUniqueInput
+  disconnect: Boolean
+}
+
+input FileFieldInput {
+  upload: Upload!
 }
 
 input SongUpdateArgs {
@@ -295,15 +309,21 @@ input SongUpdateArgs {
 
 input SongCreateInput {
   title: String
-  imageUrl: String
+  image: ImageFieldInput
   artists: UserRelateToOneForCreateInput
-  genres: GenreRelateToManyForCreateInput
+  genre: GenreRelateToOneForCreateInput
   postedAt: DateTime
+  audio: FileFieldInput
 }
 
 input UserRelateToOneForCreateInput {
   create: UserCreateInput
   connect: UserWhereUniqueInput
+}
+
+input GenreRelateToOneForCreateInput {
+  create: GenreCreateInput
+  connect: GenreWhereUniqueInput
 }
 
 type Genre {
@@ -444,6 +464,17 @@ input NestedStringNullableFilter {
   startsWith: String
   endsWith: String
   not: NestedStringNullableFilter
+}
+
+input DateTimeNullableFilter {
+  equals: DateTime
+  in: [DateTime!]
+  notIn: [DateTime!]
+  lt: DateTime
+  lte: DateTime
+  gt: DateTime
+  gte: DateTime
+  not: DateTimeNullableFilter
 }
 
 input TagManyRelationFilter {
