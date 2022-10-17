@@ -35,7 +35,7 @@ export default withAuth(
   config({
     // the db sets the database provider - we're using sqlite for the fastest startup experience
     server: {
-      cors: { origin: ["http://localhost:4202"], credentials: true },
+      cors: { origin: ["http://streamindie.space/"], credentials: true },
     },
     db: {
       provider: "sqlite",
