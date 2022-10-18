@@ -1,5 +1,5 @@
 {
-  "cacheDirectories": ["./keystone/admin/.next/cache"],
+  "cacheDirectories": ["/.keystone/admin/.next/cache/webpack/client-development"],
   "name": "keystone-app",
   "version": "1.0.2",
   "private": true,
