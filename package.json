@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "keystone dev",
     "start": "keystone start",
-    "build": "next build",
+    "build": "keystone build",
     "postinstall": "keystone postinstall",
     "deploy": "keystone build && keystone prisma migrate deploy"
   },
