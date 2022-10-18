@@ -27,5 +27,8 @@
   "resolutions": {
     "graphql": "^15.8.0",
     "next": "12.2.4"
+  },
+  "engines": {
+    "node": ">=6"
   }
 }
