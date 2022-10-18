@@ -16,13 +16,13 @@ let sessionSecret = process.env.SESSION_SECRET;
 
 // Here is a best practice! It's fine to not have provided a session secret in dev,
 // however it should always be there in production.
+sessionSecret = "an insecure session secret";
 // if (!sessionSecret) {
 //   if (process.env.NODE_ENV === "production") {
 //     throw new Error(
 //       "The SESSION_SECRET environment variable must be set in production"
 //     );
 //   } else {
-//     sessionSecret = "-- DEV COOKIE SECRET; CHANGE ME --";
 //   }
 // }
 
