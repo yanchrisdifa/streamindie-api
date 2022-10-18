@@ -50,6 +50,7 @@ const session = statelessSessions({
   maxAge: sessionMaxAge,
   secret: sessionSecret!,
   domain: "https://streamindie-api.herokuapp.com/",
+  secure: false,
   // sameSite: "none",
 });
 
