@@ -16,15 +16,15 @@ let sessionSecret = process.env.SESSION_SECRET;
 
 // Here is a best practice! It's fine to not have provided a session secret in dev,
 // however it should always be there in production.
-if (!sessionSecret) {
-  if (process.env.NODE_ENV === "production") {
-    throw new Error(
-      "The SESSION_SECRET environment variable must be set in production"
-    );
-  } else {
-    sessionSecret = "-- DEV COOKIE SECRET; CHANGE ME --";
-  }
-}
+// if (!sessionSecret) {
+//   if (process.env.NODE_ENV === "production") {
+//     throw new Error(
+//       "The SESSION_SECRET environment variable must be set in production"
+//     );
+//   } else {
+//     sessionSecret = "-- DEV COOKIE SECRET; CHANGE ME --";
+//   }
+// }
 
 // Here we define how auth relates to our schemas.
 // What we are saying here is that we want to use the list `User`, and to log in
