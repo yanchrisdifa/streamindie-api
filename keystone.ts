@@ -35,6 +35,15 @@ export default withAuth(
     server: {
       cors: { origin: ["http://streamindie.space/"] },
     },
+    graphql: {
+      debug: process.env.NODE_ENV !== "production",
+      path: "/api/graphql",
+      apolloConfig: {
+        debug: true,
+        /* ... */
+      },
+      playground: true,
+    },
     db: {
       provider: "sqlite",
       url: "file:./keystone.db",
