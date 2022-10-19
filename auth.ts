@@ -49,8 +49,6 @@ let sessionMaxAge = 60 * 60 * 24 * 30; // 30 days
 const session = statelessSessions({
   maxAge: sessionMaxAge,
   secret: sessionSecret!,
-  domain: "https://streamindie-api.herokuapp.com/",
-  secure: false,
   // sameSite: false,
 });
 
