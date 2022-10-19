@@ -33,7 +33,7 @@ export default withAuth(
   config({
     // the db sets the database provider - we're using sqlite for the fastest startup experience
     server: {
-      cors: { origin: ["http://streamindie.space/"], credentials: true },
+      cors: { origin: "*" },
     },
     graphql: {
       // debug: process.env.NODE_ENV !== "production",
