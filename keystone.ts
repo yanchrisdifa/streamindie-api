@@ -38,10 +38,10 @@ export default withAuth(
     graphql: {
       // debug: process.env.NODE_ENV !== "production",
       // path: "/api/graphql",
-      // apolloConfig: {
-      //   debug: true,
-      //   /* ... */
-      // },
+      apolloConfig: {
+        debug: true,
+        introspection: true,
+      },
       playground: true,
     },
     db: {
