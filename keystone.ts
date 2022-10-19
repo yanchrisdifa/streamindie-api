@@ -37,7 +37,7 @@ export default withAuth(
     },
     db: {
       provider: "sqlite",
-      url: "file:./keystone.db",
+      url: "./keystone.db",
       useMigrations: true,
     },
     // This config allows us to set up features of the Admin UI https://keystonejs.com/docs/apis/config#ui
