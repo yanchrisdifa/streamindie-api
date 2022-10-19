@@ -36,12 +36,12 @@ export default withAuth(
       cors: { origin: ["http://streamindie.space/#/"], credentials: true },
     },
     graphql: {
-      debug: process.env.NODE_ENV !== "production",
-      path: "/api/graphql",
-      apolloConfig: {
-        debug: true,
-        /* ... */
-      },
+      // debug: process.env.NODE_ENV !== "production",
+      // path: "/api/graphql",
+      // apolloConfig: {
+      //   debug: true,
+      //   /* ... */
+      // },
       playground: true,
     },
     db: {
