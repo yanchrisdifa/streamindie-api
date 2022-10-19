@@ -26,7 +26,7 @@ const {
   // The Access Key ID and Secret that has read/write access to the S3 bucket
   S3_ACCESS_KEY_ID: accessKeyId = "keystone",
   S3_SECRET_ACCESS_KEY: secretAccessKey = "keystone",
-  ASSET_BASE_URL: baseUrl = "https://streamindie-api.herokuapp.com//",
+  ASSET_BASE_URL: baseUrl = "https://streamindie-api.herokuapp.com/",
 } = process.env;
 
 export default withAuth(
@@ -34,11 +34,11 @@ export default withAuth(
     // the db sets the database provider - we're using sqlite for the fastest startup experience
     server: {
       cors: { origin: ["http://streamindie.space/"] },
-      port: 3000,
     },
     db: {
       provider: "sqlite",
       url: "file:./keystone.db",
+      useMigrations: true,
     },
     // This config allows us to set up features of the Admin UI https://keystonejs.com/docs/apis/config#ui
     ui: {
