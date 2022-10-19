@@ -51,7 +51,7 @@ const session = statelessSessions({
   secret: sessionSecret!,
   domain: "https://streamindie-api.herokuapp.com/",
   secure: false,
-  sameSite: false,
+  // sameSite: false,
 });
 
 export { withAuth, session };
